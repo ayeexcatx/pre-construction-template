@@ -1,131 +1,809 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>32nd Street Site Documentation Viewer</title>
-<style>
-  :root { --bg:#f4f4f4; --panel:#ffffff; --line:#d0d0d0; --text:#1f1f1f; --muted:#666666; --accent:#1f4e79; --accent-soft:#eaf1f8; --header:#2d2d2d; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family:Arial, Helvetica, sans-serif; background:var(--bg); color:var(--text); line-height:1.45; }
-  .page { max-width:1200px; margin:0 auto; padding:24px; }
-  .masthead { background:var(--panel); border:1px solid var(--line); padding:20px 24px; display:grid; grid-template-columns:240px 1fr 240px; gap:20px; align-items:start; }
-  .company-block img { max-width:180px; height:auto; display:block; margin-bottom:12px; }
-  .small { font-size:13px; color:var(--muted); }
-  .project-block { text-align:center; }
-  .project-block h1 { margin:0 0 6px; font-size:14px; font-weight:700; letter-spacing:1.5px; color:var(--header); text-transform:uppercase; }
-  .project-block h2 { margin:0 0 6px; font-size:30px; color:var(--accent); }
-  .project-block h3 { margin:0 0 6px; font-size:22px; font-weight:700; color:var(--header); }
-  .client-block { text-align:right; font-size:14px; }
-  .summary, .toc { margin-top:18px; background:var(--panel); border:1px solid var(--line); padding:18px 24px; }
-  .summary-grid { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:12px; margin-top:12px; }
-  .summary-card { border:1px solid var(--line); padding:12px; background:#fafafa; }
-  .summary-card .label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
-  .summary-card .value { margin-top:4px; font-weight:700; }
-  .toc h4, .section-list h4 { margin:0 0 12px; font-size:16px; text-transform:uppercase; color:var(--header); letter-spacing:.6px; }
-  .toc-links { display:flex; flex-wrap:wrap; gap:10px; }
-  .toc-links a { color:var(--accent); text-decoration:none; padding:8px 12px; border:1px solid var(--line); background:#fafafa; font-size:14px; }
-  .section-list { margin-top:18px; display:grid; gap:16px; }
-  details.street { background:var(--panel); border:1px solid var(--line); }
-  details.street[open] { border-color:#aebdcb; }
-  details.street summary { cursor:pointer; list-style:none; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; gap:20px; font-size:22px; font-weight:700; color:var(--header); border-left:6px solid var(--accent); background:#fcfcfc; }
-  details.street summary::-webkit-details-marker { display:none; }
-  .summary-right { font-size:13px; font-weight:400; color:var(--muted); white-space:nowrap; }
-  .street-body { padding:20px; border-top:1px solid var(--line); }
-  .street-meta { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:12px; margin-bottom:18px; }
-  .meta-box { padding:12px; background:var(--accent-soft); border:1px solid #c9d7e6; overflow-wrap:anywhere; }
-  .meta-box .label { font-size:12px; color:var(--muted); text-transform:uppercase; }
-  .meta-box .value { margin-top:4px; font-size:15px; font-weight:700; }
-  .views { display:grid; gap:14px; }
-  .view-card { border:1px solid var(--line); background:#fafafa; }
-  .view-header { padding:12px 14px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:12px; align-items:center; background:var(--accent); }
-  .view-title { font-size:18px; font-weight:700; color:#ffffff; }
-  .view-tag { font-size:12px; color:var(--accent); background:#eaf1f8; border:1px solid #c9d7e6; padding:6px 10px; display:inline-block; overflow-wrap:anywhere; }
-  .view-content { padding:14px; display:grid; grid-template-columns:1fr 360px; gap:18px; align-items:start; }
-  .thumb { grid-column:2; grid-row:1; }
-  .view-details { grid-column:1; grid-row:1; display:grid; gap:8px; }
-  .thumb video { width:100%; display:block; border:1px solid var(--line); background:#000; }
-  .detail-row { display:grid; grid-template-columns:180px 1fr; gap:10px; padding-bottom:6px; border-bottom:1px dotted #d7d7d7; font-size:14px; }
-  .detail-row strong { color:var(--header); }
-  .footer { margin:24px 0 40px; font-size:12px; color:var(--muted); text-align:center; }
-  @media (max-width:960px) { .masthead, .street-meta, .summary-grid, .view-content { grid-template-columns:1fr; } .client-block, .project-block { text-align:left; } .detail-row { grid-template-columns:1fr; } .thumb, .view-details { grid-column:auto; grid-row:auto; } .view-header { display:block; } .view-tag { display:inline-block; } .summary-right { white-space:normal; } }
-</style>
-</head>
-<body>
-<div class="page">
-<header class="masthead">
-<div class="company-block">
-<img alt="CCG Site Documentation Logo" src="_internal/ccg_logo.png"/>
-<div class="small">22 Fifth Street<br/>South River, NJ 08882<br/>Office: (732) 890-3586<br/>sitedocumentation@ccgnj.com<br/>www.ccgnj.com</div>
-</div>
-<div class="project-block">
-<h1>Pre-Construction Videos</h1>
-<h2>Improvements to 32nd Street from John F. Kennedy Boulevard to Gregory Avenue</h2>
-<h3>City of Union City</h3>
-<div class="small">County of Hudson, New Jersey<br/>Phase 1 of 3</div>
-</div>
-<div class="client-block"><strong>Owner</strong><br/>County of Hudson<br/><br/><strong>Requested By</strong><br/>S. Batata Construction, Inc.<br/><br/><strong>Prepared By</strong><br/>CCG Site Documentation LLC</div>
-</header>
-<section class="summary">
-<h4>Project Summary</h4>
-<div class="small">This viewer is provided for convenient access to the pre-construction videos. Use together with the video log for file names, locations, and documentation notes.</div>
-<div class="summary-grid">
-<div class="summary-card"><div class="label">Project</div><div class="value">Improvements to 32nd Street</div></div>
-<div class="summary-card"><div class="label">Document Type</div><div class="value">Pre-Construction Videos</div></div>
-<div class="summary-card"><div class="label">Recording Date</div><div class="value">May 9, 2026</div></div>
-<div class="summary-card"><div class="label">Project Location</div><div class="value">City of Union City, NJ</div></div>
-</div>
-</section>
-<section class="toc"><h4>Table of Contents</h4><div class="toc-links">
-<a href="#curb-line-eop">Curb Line (EOP)</a>
-<a href="#cross-section">Cross Section</a>
-<a href="#profile">Profile</a>
-</div></section>
-<section class="section-list"><h4>Video Documentation</h4>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>32nd Street Site Documentation Viewer</title>
+    <style>
+      :root {
+        --bg: #f4f4f4;
+        --panel: #ffffff;
+        --line: #d0d0d0;
+        --text: #1f1f1f;
+        --muted: #666666;
+        --accent: #1f4e79;
+        --accent-soft: #eaf1f8;
+        --header: #2d2d2d;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.45;
+      }
+      .page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .masthead {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        padding: 20px 24px;
+        display: grid;
+        grid-template-columns: 240px 1fr 240px;
+        gap: 20px;
+        align-items: start;
+      }
+      .company-block img {
+        max-width: 180px;
+        height: auto;
+        display: block;
+        margin-bottom: 12px;
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .project-block {
+        text-align: center;
+      }
+      .project-block h1 {
+        margin: 0 0 6px;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: var(--header);
+        text-transform: uppercase;
+      }
+      .project-block h2 {
+        margin: 0 0 6px;
+        font-size: 30px;
+        color: var(--accent);
+      }
+      .project-block h3 {
+        margin: 0 0 6px;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--header);
+      }
+      .client-block {
+        text-align: right;
+        font-size: 14px;
+      }
+      .summary,
+      .toc {
+        margin-top: 18px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        padding: 18px 24px;
+      }
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 12px;
+      }
+      .summary-card {
+        border: 1px solid var(--line);
+        padding: 12px;
+        background: #fafafa;
+      }
+      .summary-card .label {
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .summary-card .value {
+        margin-top: 4px;
+        font-weight: 700;
+      }
+      .toc h4,
+      .section-list h4 {
+        margin: 0 0 12px;
+        font-size: 16px;
+        text-transform: uppercase;
+        color: var(--header);
+        letter-spacing: 0.6px;
+      }
+      .toc-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .toc-links a {
+        color: var(--accent);
+        text-decoration: none;
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        background: #fafafa;
+        font-size: 14px;
+      }
+      .section-list {
+        margin-top: 18px;
+        display: grid;
+        gap: 16px;
+      }
+      details.street {
+        background: var(--panel);
+        border: 1px solid var(--line);
+      }
+      details.street[open] {
+        border-color: #aebdcb;
+      }
+      details.street summary {
+        cursor: pointer;
+        list-style: none;
+        padding: 16px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--header);
+        border-left: 6px solid var(--accent);
+        background: #fcfcfc;
+      }
+      details.street summary::-webkit-details-marker {
+        display: none;
+      }
+      .summary-right {
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+      .street-body {
+        padding: 20px;
+        border-top: 1px solid var(--line);
+      }
+      .street-meta {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .meta-box {
+        padding: 12px;
+        background: var(--accent-soft);
+        border: 1px solid #c9d7e6;
+        overflow-wrap: anywhere;
+      }
+      .meta-box .label {
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+      .meta-box .value {
+        margin-top: 4px;
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .views {
+        display: grid;
+        gap: 14px;
+      }
+      .view-card {
+        border: 1px solid var(--line);
+        background: #fafafa;
+      }
+      .view-header {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        background: var(--accent);
+      }
+      .view-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+      .view-tag {
+        font-size: 12px;
+        color: var(--accent);
+        background: #eaf1f8;
+        border: 1px solid #c9d7e6;
+        padding: 6px 10px;
+        display: inline-block;
+        overflow-wrap: anywhere;
+      }
+      .view-content {
+        padding: 14px;
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 18px;
+        align-items: start;
+      }
+      .thumb {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      .view-details {
+        grid-column: 1;
+        grid-row: 1;
+        display: grid;
+        gap: 8px;
+      }
+      .thumb video {
+        width: 100%;
+        display: block;
+        border: 1px solid var(--line);
+        background: #000;
+      }
+      .detail-row {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 10px;
+        padding-bottom: 6px;
+        border-bottom: 1px dotted #d7d7d7;
+        font-size: 14px;
+      }
+      .detail-row strong {
+        color: var(--header);
+      }
+      .footer {
+        margin: 24px 0 40px;
+        font-size: 12px;
+        color: var(--muted);
+        text-align: center;
+      }
+      @media (max-width: 960px) {
+        .masthead,
+        .street-meta,
+        .summary-grid,
+        .view-content {
+          grid-template-columns: 1fr;
+        }
+        .client-block,
+        .project-block {
+          text-align: left;
+        }
+        .detail-row {
+          grid-template-columns: 1fr;
+        }
+        .thumb,
+        .view-details {
+          grid-column: auto;
+          grid-row: auto;
+        }
+        .view-header {
+          display: block;
+        }
+        .view-tag {
+          display: inline-block;
+        }
+        .summary-right {
+          white-space: normal;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="masthead">
+        <div class="company-block">
+          <img alt="CCG Site Documentation Logo" src="_internal/ccg_logo.png" />
+          <div class="small">
+            22 Fifth Street<br />South River, NJ 08882<br />Office: (732)
+            890-3586<br />sitedocumentation@ccgnj.com<br />www.ccgnj.com
+          </div>
+        </div>
+        <div class="project-block">
+          <h1>Pre-Construction Videos</h1>
+          <h2>
+            Improvements to 32nd Street from John F. Kennedy Boulevard to
+            Gregory Avenue
+          </h2>
+          <h3>City of Union City</h3>
+          <div class="small">
+            County of Hudson, New Jersey<br />Phase 1 of 3
+          </div>
+        </div>
+        <div class="client-block">
+          <strong>Owner</strong><br />County of Hudson<br /><br /><strong
+            >Requested By</strong
+          ><br />S. Batata Construction, Inc.<br /><br /><strong
+            >Prepared By</strong
+          ><br />CCG Site Documentation LLC
+        </div>
+      </header>
+      <section class="summary">
+        <h4>Project Summary</h4>
+        <div class="small">
+          This viewer is provided for convenient access to the pre-construction
+          videos. Use together with the video log for file names, locations, and
+          documentation notes.
+        </div>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="label">Project</div>
+            <div class="value">Improvements to 32nd Street</div>
+          </div>
+          <div class="summary-card">
+            <div class="label">Document Type</div>
+            <div class="value">Pre-Construction Videos</div>
+          </div>
+          <div class="summary-card">
+            <div class="label">Recording Date</div>
+            <div class="value">May 9, 2026</div>
+          </div>
+          <div class="summary-card">
+            <div class="label">Project Location</div>
+            <div class="value">City of Union City, NJ</div>
+          </div>
+        </div>
+      </section>
+      <section class="toc">
+        <h4>Table of Contents</h4>
+        <div class="toc-links">
+          <a href="#curb-line-eop">Curb Line (EOP)</a>
+          <a href="#cross-section">Cross Section</a>
+          <a href="#profile">Profile</a>
+        </div>
+      </section>
+      <section class="section-list">
+        <h4>Video Documentation</h4>
 
-<details class="street" id="curb-line-eop" open="">
-<summary><span>Curb Line (EOP)</span><span class="summary-right">4 videos</span></summary>
-<div class="street-body"><div class="street-meta">
-<div class="meta-box"><div class="label">Street</div><div class="value">32nd Street</div></div>
-<div class="meta-box"><div class="label">Limits</div><div class="value">Palisade Avenue to Gregory Avenue</div></div>
-<div class="meta-box"><div class="label">Video Folder</div><div class="value">Video Files</div></div>
-<div class="meta-box"><div class="label">Includes</div><div class="value">Standard and Rear View</div></div>
-</div><div class="views">
+        <details class="street" id="curb-line-eop" open="">
+          <summary>
+            <span>Curb Line (EOP)</span
+            ><span class="summary-right">4 videos</span>
+          </summary>
+          <div class="street-body">
+            <div class="street-meta">
+              <div class="meta-box">
+                <div class="label">Street</div>
+                <div class="value">32nd Street</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">Limits</div>
+                <div class="value">Palisade Avenue to Gregory Avenue</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">Video Folder</div>
+                <div class="value">Video Files</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">Includes</div>
+                <div class="value">Standard and Rear View</div>
+              </div>
+            </div>
+            <div class="views">
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Curb Line (EOP)</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Curb Line (EOP) - 32nd Street - Gregory Avenue to Palisade Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Gregory Avenue to Palisade Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong><span>Curb Line (EOP)</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Curb Line (EOP) - 32nd Street - Gregory Avenue to
+                        Palisade Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Curb Line (EOP)</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Curb Line (EOP) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Palisade Avenue to Gregory Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong><span>Curb Line (EOP)</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Curb Line (EOP) - 32nd Street - Palisade Avenue to
+                        Gregory Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Curb Line (EOP) Rear View</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Curb Line (EOP) Rear View - 32nd Street - Gregory Avenue to Palisade Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Gregory Avenue to Palisade Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong
+                      ><span>Curb Line (EOP) Rear View</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Curb Line (EOP) Rear View - 32nd Street - Gregory
+                        Avenue to Palisade Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Curb Line (EOP) Rear View</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Curb Line (EOP) Rear View - 32nd Street - Palisade Avenue to Gregory Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Palisade Avenue to Gregory Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong
+                      ><span>Curb Line (EOP) Rear View</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Curb Line (EOP) Rear View - 32nd Street - Palisade
+                        Avenue to Gregory Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </details>
 
-<article class="view-card"><div class="view-header"><div class="view-title">Curb Line (EOP)</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Curb Line (EOP) - 32nd Street - Gregory Avenue to Palisade Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Gregory Avenue to Palisade Avenue</span></div><div class="detail-row"><strong>View</strong><span>Curb Line (EOP)</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Curb Line (EOP) - 32nd Street - Gregory Avenue to Palisade Avenue.mp4</span></div></div></div></article>
-<article class="view-card"><div class="view-header"><div class="view-title">Curb Line (EOP)</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Curb Line (EOP) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Palisade Avenue to Gregory Avenue</span></div><div class="detail-row"><strong>View</strong><span>Curb Line (EOP)</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Curb Line (EOP) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4</span></div></div></div></article>
-<article class="view-card"><div class="view-header"><div class="view-title">Curb Line (EOP) Rear View</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Curb Line (EOP) Rear View - 32nd Street - Gregory Avenue to Palisade Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Gregory Avenue to Palisade Avenue</span></div><div class="detail-row"><strong>View</strong><span>Curb Line (EOP) Rear View</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Curb Line (EOP) Rear View - 32nd Street - Gregory Avenue to Palisade Avenue.mp4</span></div></div></div></article>
-<article class="view-card"><div class="view-header"><div class="view-title">Curb Line (EOP) Rear View</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Curb Line (EOP) Rear View - 32nd Street - Palisade Avenue to Gregory Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Palisade Avenue to Gregory Avenue</span></div><div class="detail-row"><strong>View</strong><span>Curb Line (EOP) Rear View</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Curb Line (EOP) Rear View - 32nd Street - Palisade Avenue to Gregory Avenue.mp4</span></div></div></div></article>
+        <details class="street" id="cross-section">
+          <summary>
+            <span>Cross Section</span
+            ><span class="summary-right">2 videos</span>
+          </summary>
+          <div class="street-body">
+            <div class="street-meta">
+              <div class="meta-box">
+                <div class="label">Street</div>
+                <div class="value">32nd Street</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">Limits</div>
+                <div class="value">Palisade Avenue to Gregory Avenue</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">Video Folder</div>
+                <div class="value">Video Files</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">Includes</div>
+                <div class="value">Standard and Rear View</div>
+              </div>
+            </div>
+            <div class="views">
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Cross Section</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Cross Section - 32nd Street - Palisade Avenue to Gregory Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Palisade Avenue to Gregory Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong><span>Cross Section</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Cross Section - 32nd Street - Palisade Avenue to
+                        Gregory Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Cross Section Rear View</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Cross Section (Rear View) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Palisade Avenue to Gregory Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong><span>Cross Section Rear View</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Cross Section (Rear View) - 32nd Street - Palisade
+                        Avenue to Gregory Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </details>
 
-</div></div></details>
-
-<details class="street" id="cross-section">
-<summary><span>Cross Section</span><span class="summary-right">2 videos</span></summary>
-<div class="street-body"><div class="street-meta">
-<div class="meta-box"><div class="label">Street</div><div class="value">32nd Street</div></div>
-<div class="meta-box"><div class="label">Limits</div><div class="value">Palisade Avenue to Gregory Avenue</div></div>
-<div class="meta-box"><div class="label">Video Folder</div><div class="value">Video Files</div></div>
-<div class="meta-box"><div class="label">Includes</div><div class="value">Standard and Rear View</div></div>
-</div><div class="views">
-<article class="view-card"><div class="view-header"><div class="view-title">Cross Section</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Cross Section - 32nd Street - Palisade Avenue to Gregory Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Palisade Avenue to Gregory Avenue</span></div><div class="detail-row"><strong>View</strong><span>Cross Section</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Cross Section - 32nd Street - Palisade Avenue to Gregory Avenue.mp4</span></div></div></div></article>
-<article class="view-card"><div class="view-header"><div class="view-title">Cross Section Rear View</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Cross Section (Rear View) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Palisade Avenue to Gregory Avenue</span></div><div class="detail-row"><strong>View</strong><span>Cross Section Rear View</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Cross Section (Rear View) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4</span></div></div></div></article>
-</div></div></details>
-
-<details class="street" id="profile">
-<summary><span>Profile</span><span class="summary-right">4 videos</span></summary>
-<div class="street-body"><div class="street-meta">
-<div class="meta-box"><div class="label">Street</div><div class="value">32nd Street</div></div>
-<div class="meta-box"><div class="label">Limits</div><div class="value">Palisade Avenue to Gregory Avenue</div></div>
-<div class="meta-box"><div class="label">Video Folder</div><div class="value">Video Files</div></div>
-<div class="meta-box"><div class="label">Includes</div><div class="value">Profile, LT and RT</div></div>
-</div><div class="views">
-<article class="view-card"><div class="view-header"><div class="view-title">Profile</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Profile - 32nd Street - Gregory Avenue to Palisade Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Gregory Avenue to Palisade Avenue</span></div><div class="detail-row"><strong>View</strong><span>Profile</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Profile - 32nd Street - Gregory Avenue to Palisade Avenue.mp4</span></div></div></div></article>
-<article class="view-card"><div class="view-header"><div class="view-title">Profile</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Profile - 32nd Street - Palisade Avenue to Gregory Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Palisade Avenue to Gregory Avenue</span></div><div class="detail-row"><strong>View</strong><span>Profile</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Profile - 32nd Street - Palisade Avenue to Gregory Avenue.mp4</span></div></div></div></article>
-<article class="view-card"><div class="view-header"><div class="view-title">Profile (LT)</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Profile (LT) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Palisade Avenue to Gregory Avenue</span></div><div class="detail-row"><strong>View</strong><span>LT</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Profile (LT) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4</span></div></div></div></article>
-<article class="view-card"><div class="view-header"><div class="view-title">Profile (RT)</div></div><div class="view-content"><div class="thumb"><video controls preload="metadata"><source src="Video Files (for copying)/Profile (RT) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4" type="video/mp4"/>Your browser does not support the video tag.</video></div><div class="view-details"><div class="detail-row"><strong>Location Reference</strong><span>Palisade Avenue to Gregory Avenue</span></div><div class="detail-row"><strong>View</strong><span>RT</span></div><div class="detail-row"><strong>Media Type</strong><span>Pre-construction video</span></div><div class="detail-row"><strong>File Name</strong><span class="view-tag">Profile (RT) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4</span></div></div></div></article>
-</div></div></details>
-</section>
-<div class="footer">CCG Site Documentation LLC - Pre-Construction Video Documentation Viewer</div>
-</div>
-</body>
+        <details class="street" id="profile">
+          <summary>
+            <span>Profile</span><span class="summary-right">4 videos</span>
+          </summary>
+          <div class="street-body">
+            <div class="street-meta">
+              <div class="meta-box">
+                <div class="label">Street</div>
+                <div class="value">32nd Street</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">Limits</div>
+                <div class="value">Palisade Avenue to Gregory Avenue</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">Video Folder</div>
+                <div class="value">Video Files</div>
+              </div>
+              <div class="meta-box">
+                <div class="label">Includes</div>
+                <div class="value">Profile, LT and RT</div>
+              </div>
+            </div>
+            <div class="views">
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Profile</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Profile - 32nd Street - Gregory Avenue to Palisade Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Gregory Avenue to Palisade Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong><span>Profile</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Profile - 32nd Street - Gregory Avenue to Palisade
+                        Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Profile</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Profile - 32nd Street - Palisade Avenue to Gregory Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Palisade Avenue to Gregory Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong><span>Profile</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Profile - 32nd Street - Palisade Avenue to Gregory
+                        Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Profile (LT)</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Profile (LT) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Palisade Avenue to Gregory Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong><span>LT</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Profile (LT) - 32nd Street - Palisade Avenue to Gregory
+                        Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+              <article class="view-card">
+                <div class="view-header">
+                  <div class="view-title">Profile (RT)</div>
+                </div>
+                <div class="view-content">
+                  <div class="thumb">
+                    <video controls preload="metadata">
+                      <source
+                        src="Video Files (for copying)/Profile (RT) - 32nd Street - Palisade Avenue to Gregory Avenue.mp4"
+                        type="video/mp4"
+                      />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                  <div class="view-details">
+                    <div class="detail-row">
+                      <strong>Location Reference</strong
+                      ><span>Palisade Avenue to Gregory Avenue</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>View</strong><span>RT</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>Media Type</strong
+                      ><span>Pre-construction video</span>
+                    </div>
+                    <div class="detail-row">
+                      <strong>File Name</strong
+                      ><span class="view-tag"
+                        >Profile (RT) - 32nd Street - Palisade Avenue to Gregory
+                        Avenue.mp4</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </details>
+      </section>
+      <div class="footer">
+        CCG Site Documentation LLC - Pre-Construction Video Documentation Viewer
+      </div>
+    </div>
+  </body>
 </html>
